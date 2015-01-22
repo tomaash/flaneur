@@ -2,20 +2,26 @@
 /*jshint esnext: true */
 
 import MainCtrl from './main/main.controller';
+import TripsCtrl from './trips/trips.controller';
 import NavbarCtrl from '../components/navbar/navbar.controller';
 
 angular.module('flaneur', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap'])
   .controller('MainCtrl', MainCtrl)
   .controller('NavbarCtrl', NavbarCtrl)
-  
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .controller('TripsCtrl', TripsCtrl)
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+      .state('trips', {
+        url: '/trips',
+        templateUrl: 'app/trips/trips.html',
+        controller: 'TripsCtrl'
       });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/trips');
   })
-;
+  .config(function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('/api');
+    RestangularProvider.setRestangularFields({
+      id: '_id'
+    });
+  });
