@@ -25,7 +25,7 @@
 				<td>{{item.startDate | date:vm.dateFormat}}</td>
 				<td>{{item.endDate | date:vm.dateFormat}}</td>
 				<td>{{item.comment}}</td>
-				<td>{{daysRemaining(item)}}</td>
+				<td>{{vm.eta(item.startDate)}}</td>
 				<td>
 					<div class="action">
 						<span class="action-buttons">

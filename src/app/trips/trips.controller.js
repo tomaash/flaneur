@@ -6,13 +6,24 @@ class TripsCtrl {
 
     var vm = this;
     var resource = Restangular.all('trips');
+    var MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-    vm.dateFormat = 'dd MMMM yyyy';
+    vm.dateFormat = 'd MMMM yyyy';
 
     vm.reload = function() {
       resource.getList().then(function(data) {
         vm.collection = data;
       });
+    };
+
+    vm.eta = function(date) {
+      date = new Date(date);
+      var today = new Date();
+      var days = Math.ceil((date - today) / MS_PER_DAY);
+      if (days < 1) {
+        days = '-';
+      }
+      return days;
     };
 
     vm.edit = function(item) {
@@ -27,26 +38,16 @@ class TripsCtrl {
         }
       });
 
-      modalInstance.result.then(function(selectedItem) {
-        var itemPromise;
-        if (selectedItem._id) {
-          itemPromise = selectedItem.put();
-        } else {
-          itemPromise = resource.post(selectedItem);
-        }
-        itemPromise.then(function(){
-          vm.reload();
-        });
-      }, function() {
-        // Modal canceled
-        // $log.info('Modal dismissed at: ' + new Date());
-      });
+      modalInstance.result.then(vm.update);
+    };
+
+    vm.update = function(item) {
+      var promise = item._id ? item.put() : resource.post(item);
+      promise.then(vm.reload);
     };
 
     vm.destroy = function(item) {
-      item.remove().then(function() {
-        vm.reload();
-      });
+      item.remove().then(vm.reload);
     };
 
     vm.reload();
