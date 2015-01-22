@@ -5,11 +5,10 @@ var express = require('express');
 
 var app = express();
 
-
 if (app.get('env') === 'development') {
 	mongoose.connect('mongodb://localhost/flaneur');
 } else {
-	mongoose.connect('mongodb://admin:1234@ds047008.mongolab.com:47008/portrait-manager');
+	mongoose.connect('mongodb://root:notsosecret1234@ds051947.mongolab.com:51947/flaneur');
 }
 
 var Trip = new mongoose.Schema({
