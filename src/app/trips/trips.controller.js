@@ -2,13 +2,12 @@
 /*jshint esnext: true */
 
 class TripsCtrl {
-  constructor($scope, Restangular) {
+  constructor($scope, $log, $modal, Restangular) {
 
     var vm = this;
-    vm.currentItem = {};
-    vm.editMode = false;
-
     var resource = Restangular.all('trips');
+
+    vm.dateFormat = 'dd MMMM yyyy';
 
     vm.reload = function() {
       resource.getList().then(function(data) {
@@ -17,23 +16,30 @@ class TripsCtrl {
     };
 
     vm.edit = function(item) {
-      vm.currentItem = Restangular.copy(item);
-      vm.editMode = true;
-    };
-
-    vm.create = function() {
-      console.log(vm.currentItem);
-      resource.post(vm.currentItem).then(function() {
-        vm.currentItem = {};
-        vm.reload();
+      var editable = item ? Restangular.copy(item) : {};
+      var modalInstance = $modal.open({
+        templateUrl: 'app/trips/trip-form.html',
+        controller: 'TripFormCtrl',
+        resolve: {
+          item: function() {
+            return editable;
+          }
+        }
       });
-    };
 
-    vm.update = function() {
-      vm.currentItem.put().then(function() {
-        vm.currentItem = {};
-        vm.editMode = false;
-        vm.reload();
+      modalInstance.result.then(function(selectedItem) {
+        var itemPromise;
+        if (selectedItem._id) {
+          itemPromise = selectedItem.put();
+        } else {
+          itemPromise = resource.post(selectedItem);
+        }
+        itemPromise.then(function(){
+          vm.reload();
+        });
+      }, function() {
+        // Modal canceled
+        // $log.info('Modal dismissed at: ' + new Date());
       });
     };
 
@@ -43,16 +49,11 @@ class TripsCtrl {
       });
     };
 
-    vm.cancel = function() {
-      vm.editMode = false;
-      vm.currentItem = {};
-    };
-
     vm.reload();
   }
 }
 
-TripsCtrl.$inject = ['$scope', 'Restangular'];
+TripsCtrl.$inject = ['$scope', '$log', '$modal', 'Restangular'];
 
 export
 default TripsCtrl;

@@ -12,7 +12,10 @@ if (app.get('env') === 'development') {
 }
 
 var Trip = new mongoose.Schema({
-	destination: String
+	destination: String,
+	startDate: Date,
+	endDate: Date,
+	comment: String
 });
 
 mongoose.model('trip', Trip);

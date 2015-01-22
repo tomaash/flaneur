@@ -1,0 +1,69 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{editMode && 'Edit' || 'Create'}} Trip</h3>
+</div>
+<div class="modal-body">
+	<form role="form">
+		<div class="form-group">
+			<label for="destination">Destination:</label>
+			<input ng-model="item.destination" class="form-control" id="destination"></div>
+		<div class="form-group">
+			<label for="start_date">Start date:</label>
+			<p class="input-group">
+				<input readonly
+              type="text" 
+              class="form-control" 
+              datepicker-popup="dd MMMM yyyy" 
+              ng-model="item.startDate" 
+              is-open="openedStart" 
+              min-date="today" 
+              ng-required="true" 
+              close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="openStart($event)"> <i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</p>
+
+		</div>
+		<div class="form-group">
+			<label for="end_date">End date:</label>
+			<p class="input-group">
+				<input readonly
+              type="text" 
+              class="form-control" 
+              datepicker-popup="dd MMMM yyyy" 
+              ng-model="item.endDate" 
+              is-open="openedEnd" 
+              min-date="minEndDate()" 
+              ng-required="true" 
+              close-text="Close" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="openEnd($event)"> <i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</p>
+			<!-- 			<input ng-model="item.endDate" class="form-control" id="end_date">--></div>
+		<div class="form-group">
+			<label for="comment">Comment:</label>
+			<textarea rows="5" ng-model="item.comment" class="form-control" id="comment"></textarea>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer">
+	<button ng-hide="editMode" class="btn btn-success" ng-click="ok()">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		Create
+	</button>
+	<span ng-show="editMode">
+		<button class="btn btn-warning" ng-click="ok()">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			Update
+		</button>
+	</span>
+	<button class="btn btn-danger" ng-click="cancel()">
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		Cancel
+	</button>
+
+</div>
