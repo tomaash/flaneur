@@ -32,13 +32,15 @@ class TripsCtrl {
       }
       resource.getList({
         conditions: JSON.stringify({
-          "$or": [{
-            "comment": {
-              "$regex": vm.query
+          '$or': [{
+            'comment': {
+              '$regex': vm.query,
+              '$options': 'i'
             }
           }, {
-            "destination": {
-              "$regex": vm.query
+            'destination': {
+              '$regex': vm.query,
+              '$options': 'i'
             }
           }]
         })
