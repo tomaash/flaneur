@@ -1,10 +1,29 @@
 <div class="container">
+	<br>
 	<div ng-include="'components/navbar/navbar.html'"></div>
 	<h2>Trips</h2>
-	<button ng-hide="vm.editMode" class="btn btn-success" ng-click="vm.edit()">
-		<span class="glyphicon glyphicon-plus"/>
-		Add
-	</button>
+	<div>
+		<button class="btn btn-success " ng-click="vm.edit()">
+			<span class="glyphicon glyphicon-plus"/>
+			Add
+		</button>
+		<button class="btn btn-primary " ng-click="vm.reload()">
+			<span class="glyphicon glyphicon-repeat"/>
+			Reload
+		</button>
+
+		<div class="input-group pull-right" style="width:350px;" >
+			<input type="text" ng-keyup="($event.keyCode == 13) && vm.filter()" ng-model="vm.query" class="form-control" placeholder="Search in destination and comment">
+			<span class="input-group-btn">
+				<button class="btn btn-info" type="button" ng-click="vm.filter()">
+					<span class="glyphicon glyphicon-filter"/>
+					Filter
+				</button>
+			</span>
+
+		</div>
+	</div>
+	<br>
 	<br>
 	<br>
 	<table class="table">

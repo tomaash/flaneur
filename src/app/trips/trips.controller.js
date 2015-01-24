@@ -7,18 +7,42 @@ class TripsCtrl {
     var vm = this;
     vm.user = User.getUser();
     if (!vm.user) {
-      $location.path('/login');  
+      $location.path('/login');
     } else {
-      Restangular.setDefaultRequestParams({'access_token': vm.user.token});  
+      Restangular.setDefaultRequestParams({
+        'access_token': vm.user.token
+      });
     }
-    
+
     var resource = Restangular.all('trips');
     var MS_PER_DAY = 24 * 60 * 60 * 1000;
 
     vm.dateFormat = 'd MMMM yyyy';
 
     vm.reload = function() {
+      vm.query = null;
       resource.getList().then(function(data) {
+        vm.collection = data;
+      });
+    };
+
+    vm.filter = function() {
+      if (!vm.query) {
+        return vm.reload();
+      }
+      resource.getList({
+        conditions: JSON.stringify({
+          "$or": [{
+            "comment": {
+              "$regex": vm.query
+            }
+          }, {
+            "destination": {
+              "$regex": vm.query
+            }
+          }]
+        })
+      }).then(function(data) {
         vm.collection = data;
       });
     };
