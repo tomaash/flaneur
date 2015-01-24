@@ -1,12 +1,12 @@
 <div class="modal-header">
 	<h3 class="modal-title">{{editMode && 'Edit' || 'Create'}} Trip</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body col-sm-12">
 	<form role="form">
-		<div class="form-group">
+		<div class="form-group col-sm-12">
 			<label for="destination">Destination:</label>
 			<input ng-model="item.destination" class="form-control" id="destination"></div>
-		<div class="form-group">
+		<div class="form-group col-sm-6">
 			<label for="start_date">Start date:</label>
 			<p class="input-group">
 				<input readonly
@@ -25,7 +25,7 @@
 			</p>
 
 		</div>
-		<div class="form-group">
+		<div class="form-group col-sm-6">
 			<label for="end_date">End date:</label>
 			<p class="input-group">
 				<input readonly
@@ -43,7 +43,7 @@
 				</span>
 			</p>
 			<!-- 			<input ng-model="item.endDate" class="form-control" id="end_date">--></div>
-		<div class="form-group">
+		<div class="form-group col-sm-12">
 			<label for="comment">Comment:</label>
 			<textarea rows="5" ng-model="item.comment" class="form-control" id="comment"></textarea>
 		</div>

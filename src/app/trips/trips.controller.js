@@ -2,9 +2,16 @@
 /*jshint esnext: true */
 
 class TripsCtrl {
-  constructor($scope, $log, $modal, Restangular) {
+  constructor($scope, $location, $log, $modal, Restangular, User) {
 
     var vm = this;
+    vm.user = User.getUser();
+    if (!vm.user) {
+      $location.path('/login');  
+    } else {
+      Restangular.setDefaultRequestParams({'access_token': vm.user.token});  
+    }
+    
     var resource = Restangular.all('trips');
     var MS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -20,7 +27,7 @@ class TripsCtrl {
       date = new Date(date);
       var today = new Date();
       var days = Math.ceil((date - today) / MS_PER_DAY);
-      if (days < 1) {
+      if (isNaN(days) || days < 1) {
         days = '-';
       }
       return days;
@@ -31,6 +38,7 @@ class TripsCtrl {
       var modalInstance = $modal.open({
         templateUrl: 'app/trips/trip-form.html',
         controller: 'TripFormCtrl',
+        size: 'lg',
         resolve: {
           item: function() {
             return editable;
@@ -54,7 +62,7 @@ class TripsCtrl {
   }
 }
 
-TripsCtrl.$inject = ['$scope', '$log', '$modal', 'Restangular'];
+TripsCtrl.$inject = ['$scope', '$location', '$log', '$modal', 'Restangular', 'User'];
 
 export
 default TripsCtrl;

@@ -10,7 +10,9 @@ gulp.task('scripts', function () {
   return gulp.src(paths.src + '/{app,components}/**/*.js')
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
+    .pipe($.sourcemaps.init())
     .pipe($['6to5']())
+    .pipe($.sourcemaps.write())
     .on('error', function handleError(err) {
       console.error(err.toString());
       this.emit('end');
