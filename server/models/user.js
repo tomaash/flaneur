@@ -43,6 +43,10 @@ User.pre('save', function(next) {
 
 User.methods.comparePassword = function(candidatePassword) {
 	var def = Q.defer();
+	if (!candidatePassword) {
+		console.log('compare called without password');
+		def.resolve(false);
+	}
 	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
 		if (err) {
 			def.reject(err);

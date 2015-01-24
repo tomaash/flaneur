@@ -3,28 +3,40 @@
 
 class LoginCtrl {
   constructor($scope, $location, User, Restangular) {
+    User.setUser(null);
     this.User = User;
     this.$location = $location;
     this.loginResource = Restangular.all('login');
     this.registerResource = Restangular.all('register');
     this.loginData = {};
     this.error = null;
-    // User.setUser({username:'foo'});
   }
 
-  login() {
-    this.loginResource.post(this.loginData).then(
+  _authenticate(resource, errorMessage) {
+    resource.post(this.loginData).then(
       user => {
         this.error = null;
         console.log(user);
         this.User.setUser(user);
         this.$location.path('/trips');
       }, err => {
-        this.error = 'Username and password does not match!';
+        this.error = errorMessage;
         console.log(err);
       });
-    // console.log(this.loginData);
-    // this.error = 'Bad comand or filename';
+  }
+
+  login() {
+    this._authenticate(
+      this.loginResource,
+      'Username and password does not match!'
+    );
+  }
+
+  register() {
+    this._authenticate(
+      this.registerResource,
+      'This username is already taken!'
+    );
   }
 }
 

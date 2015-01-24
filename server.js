@@ -29,8 +29,8 @@ mongoose.model('trip', Trip);
 
 var tripsController = baucis.rest('trip');
 tripsController.request(bearerAuth.authenticate('bearer', {
-		session: false
-	}));
+	session: false
+}));
 // baucis.rest('User');
 
 app.post('/api/register', jsonParser, function(req, res) {
@@ -60,10 +60,10 @@ app.post('/api/login', jsonParser, function(req, res) {
 	}).then(function(user) {
 		if (user) {
 			foundUser = user;
-			return user.comparePassword(userData.password)
+			return user.comparePassword(userData.password);
 		}
 	}).then(function(isMatch) {
-		if (isMatch) {
+		if (isMatch === true) {
 			foundUser.token = uuid.v1();
 			return foundUser.saveQ();
 		} else {
