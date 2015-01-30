@@ -1,12 +1,9 @@
-export
-default class User {
+class User {
   constructor(Restangular, $location) {
     this.Restangular = Restangular;
     this.$location = $location;
-    this.MS_PER_DAY = 24 * 60 * 60 * 1000;
-    this.COMMENT_TRIM_LENGTH = 50;
-    this.dateFormat = 'd MMMM yyyy';
   }
+  
   setUser(user) {
     this.user = user;
     sessionStorage.setItem('user', JSON.stringify(user));
@@ -29,3 +26,8 @@ default class User {
     }
   }
 }
+
+User.$inject = ['Restangular', '$location'];
+
+export
+default User;
