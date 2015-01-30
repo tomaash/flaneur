@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/flaneur');
 var tripsController = baucis.rest('Trip');
 tripsController.request([mw.authenticate, mw.addUserId]);
 tripsController.query('get', mw.addUserCondition);
-// tripsController.request('post', mw.addUserId);
 
 app.post('/api/register', jsonParser, loginController.register);
 app.post('/api/login', jsonParser, loginController.login);

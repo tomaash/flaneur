@@ -64,21 +64,6 @@ describe('Trips Controller', function() {
     scope.vm.edit(item);
     expect(scope.vm.modalInstance.opened).toBeTruthy();
   });
-
-  it('eta should return remaining days', function() {
-    var msDay = 24 * 60 * 60 * 1000;
-    var tomorrow = new Date(new Date().getTime() + msDay);
-    var yesterday = new Date(new Date().getTime() - msDay);
-    expect(scope.vm.eta(tomorrow)).toEqual(1);
-    expect(scope.vm.eta(yesterday)).toEqual('-');
-    expect(scope.vm.eta(new Date())).toEqual('Today!');
-  });
-
-  it('trimComment should trim to max length', function() {
-    var comment = 'foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz';
-    expect(scope.vm.trimComment(comment).length).toBeLessThan(51);
-    expect(scope.vm.trimComment('foo')).toEqual('foo');
-  });
   
   it('filter should call server with query', function() {
     $httpBackend.expectGET(/\/api\/trips\?conditions=.*foo.*foo.*/).respond(tripsMock);

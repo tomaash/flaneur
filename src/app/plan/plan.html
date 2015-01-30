@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Trips for next month</h2>
+  <h4> From <b>{{vm.start | date:vm.TripTools.dateFormat}}</b> to <b>{{vm.end | date:vm.TripTools.dateFormat}}</b></h4>
+ 
+  <br>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Destination</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in vm.collection">
+        <td>{{item.destination}}</td>
+        <td>{{item.startDate | date:vm.TripTools.dateFormat}}</td>
+        <td>{{item.endDate | date:vm.TripTools.dateFormat}}</td>
+        <td>{{vm.TripTools.trimComment(item.comment, 160)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

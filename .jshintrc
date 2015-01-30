@@ -23,6 +23,7 @@
     "angular": false,
     "S": false,
     "jasmine": false,
+    "moment": false,
     "sessionStorage": false,
     "localStorage": false,
     // Angular Mocks

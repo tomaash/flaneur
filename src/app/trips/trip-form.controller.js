@@ -2,7 +2,8 @@
 /*jshint esnext: true */
 
 class TripFormCtrl {
-  constructor($scope, $modalInstance, item) {
+  constructor($scope, $modalInstance, item, TripTools) {
+    $scope.TripTools = TripTools;
     $scope.item = item;
     $scope.today = new Date();
 
@@ -39,7 +40,7 @@ class TripFormCtrl {
   }
 }
 
-TripFormCtrl.$inject = ['$scope', '$modalInstance', 'item'];
+TripFormCtrl.$inject = ['$scope', '$modalInstance', 'item', 'TripTools'];
 
 export
 default TripFormCtrl;

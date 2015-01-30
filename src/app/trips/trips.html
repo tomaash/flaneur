@@ -1,58 +1,59 @@
 <div class="container">
-	<br>
-	<div ng-include="'components/navbar/navbar.html'"></div>
-	<h2>Trips</h2>
-	<div>
-		<button class="btn btn-success " ng-click="vm.edit()">
-			<span class="glyphicon glyphicon-plus"/>
-			Add
-		</button>
-		<button class="btn btn-primary " ng-click="vm.reload()">
-			<span class="glyphicon glyphicon-repeat"/>
-			Reload
-		</button>
+  <br>
+  <div ng-include="'components/navbar/navbar.html'"></div>
+  <h2>Trips</h2>
+  <div>
+    <button class="btn btn-success " ng-click="vm.edit()">
+      <span class="glyphicon glyphicon-plus"/>
+      Add
+    </button>
+    <button class="btn btn-primary " ng-click="vm.reload()">
+      <span class="glyphicon glyphicon-repeat"/>
+      Reload
+    </button>
 
-		<div class="input-group pull-right" style="width:350px;" >
-			<input type="text" ng-keyup="($event.keyCode == 13) && vm.filter()" ng-model="vm.query" class="form-control" placeholder="Search in destination and comment">
-			<span class="input-group-btn">
-				<button class="btn btn-info" type="button" ng-click="vm.filter()">
-					<span class="glyphicon glyphicon-filter"/>
-					Filter
-				</button>
-			</span>
+    <div class="input-group pull-right" style="width:350px;" >
+      <input type="text" ng-keyup="($event.keyCode == 13) && vm.filter()" ng-model="vm.query" class="form-control" placeholder="Search in destination and comment">
+      <span class="input-group-btn">
+        <button class="btn btn-info" type="button" ng-click="vm.filter()">
+          <span class="glyphicon glyphicon-filter"/>
+          Filter
+        </button>
+      </span>
 
-		</div>
-	</div>
-	<br>
-	<br>
-	<br>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Destination</th>
-				<th>Start date</th>
-				<th>End date</th>
-				<th>Comment</th>
-				<th>Days remaining</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in vm.collection">
-				<td>{{item.destination}}</td>
-				<td>{{item.startDate | date:vm.dateFormat}}</td>
-				<td>{{item.endDate | date:vm.dateFormat}}</td>
-				<td>{{vm.trimComment(item.comment)}}</td>
-				<td>{{vm.eta(item.startDate)}}</td>
-				<td>
-					<div class="action">
-						<span class="action-buttons">
-							<button ng-click="vm.edit(item)" class='btn btn-xs btn-warning'>Edit</button>
-							<button ng-click="vm.destroy(item)" class='btn btn-xs btn-danger'>Delete</button>
-						</span>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Destination</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Comment</th>
+        <th>Days remaining</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in vm.collection">
+        <td>{{item.destination}}</td>
+        <td>{{item.startDate | date:vm.TripTools.dateFormat}}</td>
+        <td>{{item.endDate | date:vm.TripTools.dateFormat}}</td>
+        <td>{{vm.TripTools.trimComment(item.comment)}}</td>
+        <td>{{vm.TripTools.eta(item.startDate)}}</td>
+        <td>
+          <div class="action">
+            <span class="action-buttons">
+              <button ng-click="vm.show(item)" class='btn btn-xs btn-primary'>Show</button>
+              <button ng-click="vm.edit(item)" class='btn btn-xs btn-warning'>Edit</button>
+              <button ng-click="vm.destroy(item)" class='btn btn-xs btn-danger'>Delete</button>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -7,17 +7,20 @@
       </a>
     </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li class="active">
-          <a ui-sref="trips">Trips</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-        <a ui-sref="login">Logout <b>{{User.getUser().username}}</b></a>
-        </li>
-      </ul>
+    <ul class="nav navbar-nav">
+      <li ng-class="{active: (state.current.name=='trips')}">
+        <a ui-sref="trips">Trips</a>
+      </li>
+      <li ng-class="{active: (state.current.name=='plan')}">
+        <a target="_blank" ui-sref="plan">Travel plan</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a ui-sref="login">
+          Logout <b>{{User.getUser().username}}</b>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
 </nav>

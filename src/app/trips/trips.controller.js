@@ -2,32 +2,24 @@
 /*jshint esnext: true */
 
 class TripsCtrl {
-  constructor($scope, $location, $log, $modal, Restangular, User) {
+  constructor($scope, $location, $log, $modal, Restangular, User, TripTools) {
 
     this.$modal = $modal;
     this.Restangular = Restangular;
+    this.TripTools = TripTools;
 
     this.user = User.getUser();
-    if (!this.user) {
-      $location.path('/login');
-    } else {
-      Restangular.setDefaultRequestParams({
-        'access_token': this.user.token
-      });
-    }
+    User.check();
 
     this.resource = Restangular.all('trips');
-    this.MS_PER_DAY = 24 * 60 * 60 * 1000;
-    this.COMMENT_TRIM_LENGTH = 50;
-
-    this.dateFormat = 'd MMMM yyyy';
-
     this.reload();
   }
 
   reload() {
     this.query = null;
-    this.resource.getList().then(data => {
+    this.resource.getList({
+      sort: 'startDate endDate'
+    }).then(data => {
       this.collection = data;
     });
   }
@@ -55,23 +47,6 @@ class TripsCtrl {
     });
   }
 
-  trimComment(str) {
-    return S(str).truncate(this.COMMENT_TRIM_LENGTH).s;
-  }
-
-  eta(date) {
-    date = new Date(date);
-    var today = new Date();
-    var days = Math.ceil((date - today) / this.MS_PER_DAY);
-    if (days === 0) {
-      days = 'Today!';
-    }
-    else if (isNaN(days) || days < 0) {
-      days = '-';
-    }
-    return days;
-  }
-
   edit(item) {
     var editable = item ? this.Restangular.copy(item) : {};
     this.modalInstance = this.$modal.open({
@@ -86,6 +61,19 @@ class TripsCtrl {
     });
     this.modalInstance.result.then((item) => {
       this.update(item);
+    });
+  }
+
+  show(item) {
+    this.modalInstance = this.$modal.open({
+      templateUrl: 'app/trips/trip-show.html',
+      controller: 'TripFormCtrl',
+      size: 'lg',
+      resolve: {
+        item: function() {
+          return item;
+        }
+      }
     });
   }
 
@@ -104,7 +92,7 @@ class TripsCtrl {
   }
 }
 
-TripsCtrl.$inject = ['$scope', '$location', '$log', '$modal', 'Restangular', 'User'];
+TripsCtrl.$inject = ['$scope', '$location', '$log', '$modal', 'Restangular', 'User', 'TripTools'];
 
 export
 default TripsCtrl;

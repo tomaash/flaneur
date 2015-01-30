@@ -20,24 +20,24 @@ var bearerAuth = passport.use(new BearerStrategy(function(token, done) {
 }));
 
 module.exports.addUserCondition = function(req, res, next) {
-	req.baucis.query._conditions.user = req.user._id;
-	next();
+  req.baucis.query._conditions.user = req.user._id;
+  next();
 };
 
 module.exports.addUserId = function(req, res, next) {
-	req.baucis.incoming(function(doc, callback) {
+  req.baucis.incoming(function(doc, callback) {
     if (Object.getOwnPropertyNames(doc.incoming).length === 0) {
       res.status(409).send('Cannot save empty object');
       console.log('Empty object filtered out from saving');
       return;
     }
-		doc.incoming.user = req.user._id;
-		console.log(doc.incoming);
+    doc.incoming.user = req.user._id;
+    console.log(doc.incoming);
     callback(null, doc);
-	});
-	next();
+  });
+  next();
 };
 
 module.exports.authenticate = bearerAuth.authenticate('bearer', {
-	session: false
+  session: false
 });
