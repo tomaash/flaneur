@@ -42,7 +42,7 @@
 				<td>{{item.destination}}</td>
 				<td>{{item.startDate | date:vm.dateFormat}}</td>
 				<td>{{item.endDate | date:vm.dateFormat}}</td>
-				<td>{{item.comment}}</td>
+				<td>{{vm.trimComment(item.comment)}}</td>
 				<td>{{vm.eta(item.startDate)}}</td>
 				<td>
 					<div class="action">

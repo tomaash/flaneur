@@ -1,94 +1,106 @@
 'use strict';
 /*jshint esnext: true */
 
-class TripsCtrl {
+export
+default class TripsCtrl {
   constructor($scope, $location, $log, $modal, Restangular, User) {
 
-    var vm = this;
-    vm.user = User.getUser();
-    if (!vm.user) {
+    this.$modal = $modal;
+    this.Restangular = Restangular;
+
+    this.user = User.getUser();
+    if (!this.user) {
       $location.path('/login');
     } else {
       Restangular.setDefaultRequestParams({
-        'access_token': vm.user.token
+        'access_token': this.user.token
       });
     }
 
-    var resource = Restangular.all('trips');
-    var MS_PER_DAY = 24 * 60 * 60 * 1000;
+    this.resource = Restangular.all('trips');
+    this.MS_PER_DAY = 24 * 60 * 60 * 1000;
+    this.COMMENT_TRIM_LENGTH = 50;
 
-    vm.dateFormat = 'd MMMM yyyy';
+    this.dateFormat = 'd MMMM yyyy';
 
-    vm.reload = function() {
-      vm.query = null;
-      resource.getList().then(function(data) {
-        vm.collection = data;
-      });
-    };
+    this.reload();
+  }
 
-    vm.filter = function() {
-      if (!vm.query) {
-        return vm.reload();
-      }
-      resource.getList({
-        conditions: JSON.stringify({
-          '$or': [{
-            'comment': {
-              '$regex': vm.query,
-              '$options': 'i'
-            }
-          }, {
-            'destination': {
-              '$regex': vm.query,
-              '$options': 'i'
-            }
-          }]
-        })
-      }).then(function(data) {
-        vm.collection = data;
-      });
-    };
+  reload() {
+    this.query = null;
+    this.resource.getList().then(data => {
+      this.collection = data;
+    });
+  }
 
-    vm.eta = function(date) {
-      date = new Date(date);
-      var today = new Date();
-      var days = Math.ceil((date - today) / MS_PER_DAY);
-      if (isNaN(days) || days < 1) {
-        days = '-';
-      }
-      return days;
-    };
-
-    vm.edit = function(item) {
-      var editable = item ? Restangular.copy(item) : {};
-      var modalInstance = $modal.open({
-        templateUrl: 'app/trips/trip-form.html',
-        controller: 'TripFormCtrl',
-        size: 'lg',
-        resolve: {
-          item: function() {
-            return editable;
+  filter() {
+    if (!this.query) {
+      return this.reload();
+    }
+    this.resource.getList({
+      conditions: JSON.stringify({
+        '$or': [{
+          'comment': {
+            '$regex': this.query,
+            '$options': 'i'
           }
+        }, {
+          'destination': {
+            '$regex': this.query,
+            '$options': 'i'
+          }
+        }]
+      })
+    }).then(data => {
+      this.collection = data;
+    });
+  }
+
+  trimComment(str) {
+    return S(str).truncate(this.COMMENT_TRIM_LENGTH).s;
+  }
+
+  eta(date) {
+    date = new Date(date);
+    var today = new Date();
+    var days = Math.ceil((date - today) / this.MS_PER_DAY);
+    if (days === 0) {
+      days = 'Today!';
+    }
+    else if (isNaN(days) || days < 0) {
+      days = '-';
+    }
+    return days;
+  }
+
+  edit(item) {
+    var editable = item ? this.Restangular.copy(item) : {};
+    this.modalInstance = this.$modal.open({
+      templateUrl: 'app/trips/trip-form.html',
+      controller: 'TripFormCtrl',
+      size: 'lg',
+      resolve: {
+        item: function() {
+          return editable;
         }
-      });
+      }
+    });
+    this.modalInstance.result.then((item) => {
+      this.update(item);
+    });
+  }
 
-      modalInstance.result.then(vm.update);
-    };
+  update(item) {
+    var promise = item._id ? item.put() : this.resource.post(item);
+    // promise.then(this.reload.bind(self));
+    promise.then(() => {
+      this.reload();
+    });
+  }
 
-    vm.update = function(item) {
-      var promise = item._id ? item.put() : resource.post(item);
-      promise.then(vm.reload);
-    };
-
-    vm.destroy = function(item) {
-      item.remove().then(vm.reload);
-    };
-
-    vm.reload();
+  destroy(item) {
+    item.remove().then(() => {
+      this.reload();
+    });
   }
 }
-
-TripsCtrl.$inject = ['$scope', '$location', '$log', '$modal', 'Restangular', 'User'];
-
-export
-default TripsCtrl;

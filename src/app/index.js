@@ -11,7 +11,6 @@ import NavbarCtrl from '../components/navbar/navbar.controller';
 
 angular.module('flaneur', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap'])
   .service('User', User)
-  .controller('MainCtrl', MainCtrl)
   .controller('LoginCtrl', LoginCtrl)
   .controller('NavbarCtrl', NavbarCtrl)
   .controller('TripsCtrl', TripsCtrl)
