@@ -21,6 +21,10 @@
   "validthis": true,
   "globals": {
     "angular": false,
+    "S": false,
+    "jasmine": false,
+    "sessionStorage": false,
+    "localStorage": false,
     // Angular Mocks
     "inject": false,
     // JASMINE

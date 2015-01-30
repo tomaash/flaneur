@@ -3,7 +3,6 @@
 
 import User from './services/user.service';
 
-import MainCtrl from './main/main.controller';
 import LoginCtrl from './login/login.controller';
 import TripsCtrl from './trips/trips.controller';
 import TripFormCtrl from './trips/trip-form.controller';

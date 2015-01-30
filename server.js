@@ -11,10 +11,10 @@ var loginController = require('./server/controllers/login');
 
 var app = express();
 
-if (app.get('env') === 'development') {
-	mongoose.connect('mongodb://localhost/flaneur');
+if (process.env.MONGOLAB_URI) {
+	mongoose.connect(process.env.MONGOLAB_URI);
 } else {
-	mongoose.connect('mongodb://root:notsosecret1234@ds051947.mongolab.com:51947/flaneur');
+	mongoose.connect('mongodb://localhost/flaneur');
 }
 
 var tripsController = baucis.rest('Trip');

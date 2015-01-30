@@ -2,12 +2,12 @@ export
 default class User {
   setUser(user) {
     this.user = user;
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', JSON.stringify(user));
   }
 
   getUser() {
   	if (!this.user) {
-  		this.user = JSON.parse(localStorage.getItem('user'));
+  		this.user = JSON.parse(sessionStorage.getItem('user'));
   	}
     return this.user;
   }

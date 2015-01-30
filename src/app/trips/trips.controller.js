@@ -1,8 +1,7 @@
 'use strict';
 /*jshint esnext: true */
 
-export
-default class TripsCtrl {
+class TripsCtrl {
   constructor($scope, $location, $log, $modal, Restangular, User) {
 
     this.$modal = $modal;
@@ -104,3 +103,8 @@ default class TripsCtrl {
     });
   }
 }
+
+TripsCtrl.$inject = ['$scope', '$location', '$log', '$modal', 'Restangular', 'User'];
+
+export
+default TripsCtrl;
