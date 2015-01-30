@@ -11,11 +11,7 @@ var loginController = require('./server/controllers/login');
 
 var app = express();
 
-if (process.env.MONGOLAB_URI) {
-	mongoose.connect(process.env.MONGOLAB_URI);
-} else {
-	mongoose.connect('mongodb://localhost/flaneur');
-}
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/flaneur');
 
 var tripsController = baucis.rest('Trip');
 tripsController.request([mw.authenticate, mw.addUserId]);
