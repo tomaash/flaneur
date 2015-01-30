@@ -19,6 +19,8 @@ describe('Trips Controller', function() {
     'user': '20'
   }];
 
+  var tripsUrl = /\/api\/trips/;
+
   beforeEach(module('flaneur'));
 
   beforeEach(inject(function($rootScope, $controller, _$httpBackend_) {
@@ -27,7 +29,7 @@ describe('Trips Controller', function() {
     controller = $controller('TripsCtrl as vm', {
       $scope: scope
     });
-    $httpBackend.expectGET('/api/trips').respond(tripsMock);
+    $httpBackend.expectGET(tripsUrl).respond(tripsMock);
     $httpBackend.flush();
   }));
 
@@ -45,7 +47,7 @@ describe('Trips Controller', function() {
 
   it('updating item should save to server and reload', function() {
     $httpBackend.expectPUT('/api/trips/1').respond(200);
-    $httpBackend.expectGET('/api/trips').respond(tripsMock);
+    $httpBackend.expectGET(tripsUrl).respond(tripsMock);
     var item = scope.vm.collection[0];
     scope.vm.update(item);
     $httpBackend.flush();
@@ -53,7 +55,7 @@ describe('Trips Controller', function() {
 
   it('deleting item should save to server and reload', function() {
     $httpBackend.expectDELETE('/api/trips/1').respond(200);
-    $httpBackend.expectGET('/api/trips').respond(tripsMock);
+    $httpBackend.expectGET(tripsUrl).respond(tripsMock);
     var item = scope.vm.collection[0];
     scope.vm.destroy(item);
     $httpBackend.flush();
