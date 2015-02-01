@@ -54,7 +54,7 @@
         </span>
       </div>
       <span class="error-manual" ng-show="tripForm.endDate.$touched && tripForm.endDate.$invalid">End date is required</span>
-      <span class="error-manual" ng-show="tripForm.endDate.$touched && tripForm.startDate.$touched && !dateRangeValid()">End date cannot be before start date</span>
+      <span class="error-manual" ng-show="!dateRangeValid()">End date cannot be before start date</span>
 
       <span class="error-message"></span>
     </div>
