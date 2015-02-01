@@ -2,18 +2,25 @@
   <h3 class="modal-title">Trip Details</h3>
 </div>
 <div class="modal-body col-sm-12">
-  <b>Destination:</b><br>
-  {{item.destination}}<br><br>
-  <b>Start date:</b><br>
-  {{item.startDate | date:TripTools.dateFormat}}<br><br>
-  <b>End date:</b><br>
-  {{item.endDate | date:TripTools.dateFormat}}<br><br>
-  <b>Comment:</b><br>
-  <td>{{item.comment}}</td>
+  <p> 
+    <b>Destination:</b>
+    <br>{{item.destination}}</p>
+  <p> 
+    <b>Start date:</b>
+    <br>{{item.startDate | date:TripTools.dateFormat}}</p>
+  <p>
+    <b>End date:</b>
+    <br>{{item.endDate | date:TripTools.dateFormat}}</p>
+  <p>
+    <b>Comment:</b>
+    <br>{{item.comment}}</p>
+  <p ng-if="TripTools.eta(item.startDate)!='-'">
+    <b>Days remaining:</b>
+    <br>{{TripTools.eta(item.startDate)}}</p>
 </div>
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="cancel()">
-  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-  Close
-</button>
+    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    Close
+  </button>
 </div>
