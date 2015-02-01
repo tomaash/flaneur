@@ -22,5 +22,6 @@ describe('TripTools Service', function() {
     var comment = 'foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz foo bar baz';
     expect(TripTools.trimComment(comment).length).toBeLessThan(51);
     expect(TripTools.trimComment('foo')).toEqual('foo');
+    expect(TripTools.trimComment(null)).toEqual('');
   });
 });

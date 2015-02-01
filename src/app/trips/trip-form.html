@@ -2,47 +2,62 @@
   <h3 class="modal-title">{{editMode && 'Edit' || 'Create'}} Trip</h3>
 </div>
 <div class="modal-body col-sm-12">
-  <form role="form">
-    <div class="form-group col-sm-12">
+  <form role="form" name="tripForm">
+    <div class="form-group col-sm-12" show-errors>
       <label for="destination">Destination:</label>
-      <input ng-model="item.destination" class="form-control" id="destination"></div>
+      <input type="text" name="destination" ng-model="item.destination" class="form-control" id="destination" required>
+      <span class="error-message">Destination is required</span>
+    </div>
     <div class="form-group col-sm-6">
       <label for="start_date">Start date:</label>
-      <p class="input-group">
-        <input readonly
+      <div class="input-group show-errors">
+        <input 
+              readonly
               type="text" 
+              name="startDate"
               class="form-control" 
               datepicker-popup="dd MMMM yyyy" 
               ng-model="item.startDate" 
               is-open="openedStart" 
               min-date="today" 
-              ng-required="true" 
-              close-text="Close" />
+              close-text="Close" 
+              ng-click="openStart($event)"
+              required
+              />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="openStart($event)"> <i class="glyphicon glyphicon-calendar"></i>
           </button>
         </span>
-      </p>
+      </div>
+      <span class="error-manual" ng-show="tripForm.startDate.$touched && tripForm.startDate.$invalid">Start date is required</span>
 
     </div>
     <div class="form-group col-sm-6">
       <label for="end_date">End date:</label>
-      <p class="input-group">
-        <input readonly
-              type="text" 
+      <div class="input-group show-errors">
+        <input
+              readonly 
+              type="text"
+              name="endDate" 
               class="form-control" 
               datepicker-popup="dd MMMM yyyy" 
               ng-model="item.endDate" 
               is-open="openedEnd" 
               min-date="minEndDate()" 
-              ng-required="true" 
-              close-text="Close" />
+              close-text="Close" 
+              required
+              ng-click="openEnd($event)"
+              />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="openEnd($event)"> <i class="glyphicon glyphicon-calendar"></i>
           </button>
         </span>
-      </p>
-      <!--            <input ng-model="item.endDate" class="form-control" id="end_date">--></div>
+      </div>
+      <span class="error-manual" ng-show="tripForm.endDate.$touched && tripForm.endDate.$invalid">End date is required</span>
+      <span class="error-manual" ng-show="tripForm.endDate.$touched && tripForm.startDate.$touched && !dateRangeValid()">End date cannot be before start date</span>
+
+      <span class="error-message"></span>
+    </div>
     <div class="form-group col-sm-12">
       <label for="comment">Comment:</label>
       <textarea rows="5" ng-model="item.comment" class="form-control" id="comment"></textarea>
@@ -51,12 +66,12 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button ng-hide="editMode" class="btn btn-success" ng-click="ok()">
+  <button ng-hide="editMode" ng-disabled="tripForm.$invalid" class="btn btn-success" ng-click="ok()">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     Create
   </button>
   <span ng-show="editMode">
-    <button class="btn btn-warning" ng-click="ok()">
+    <button class="btn btn-warning" ng-disabled="tripForm.$invalid || !dateRangeValid()" ng-click="ok()">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
       Update
     </button>

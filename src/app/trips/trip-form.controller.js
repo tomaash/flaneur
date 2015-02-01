@@ -13,6 +13,14 @@ class TripFormCtrl {
       return $scope.item.startDate || $scope.today;
     };
 
+    $scope.dateRangeValid = function() {
+      if (!$scope.item.startDate || !$scope.item.endDate) {
+        return true;
+      }
+      return $scope.item.startDate <= $scope.item.endDate;
+    };
+
+
     if (item._id) {
       $scope.editMode = true;
     }

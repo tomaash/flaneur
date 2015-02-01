@@ -10,7 +10,7 @@ import TripFormCtrl from './trips/trip-form.controller';
 import PlanCtrl from './plan/plan.controller';
 import NavbarCtrl from '../components/navbar/navbar.controller';
 
-angular.module('flaneur', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap'])
+angular.module('flaneur', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap', 'ui.bootstrap.showErrors'])
   .service('User', User)
   .service('TripTools', TripTools)
   .controller('LoginCtrl', LoginCtrl)

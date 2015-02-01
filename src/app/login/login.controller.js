@@ -10,6 +10,9 @@ class LoginCtrl {
     this.registerResource = Restangular.all('register');
     this.loginData = {};
     this.error = null;
+    if ($location.search().logout) {
+      this.error = 'You have been logged out';
+    }
   }
 
   _authenticate(resource, errorMessage) {

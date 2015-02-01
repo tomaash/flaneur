@@ -3,7 +3,7 @@ class User {
     this.Restangular = Restangular;
     this.$location = $location;
   }
-  
+
   setUser(user) {
     this.user = user;
     sessionStorage.setItem('user', JSON.stringify(user));
@@ -24,6 +24,15 @@ class User {
         'access_token': this.user.token
       });
     }
+  }
+
+  setInterceptor() {
+    this.Restangular.setErrorInterceptor((response, deferred, responseHandler) => {
+      if (response.status === 401) {
+        this.$location.search('logout');
+        this.$location.path('/login');
+      }
+    });
   }
 }
 

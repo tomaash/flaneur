@@ -7,7 +7,7 @@ default class TripTools {
   }
 
   trimComment(str, len) {
-    return S(str).truncate(len || this.COMMENT_TRIM_LENGTH).s;
+    return S(str || '').truncate(len || this.COMMENT_TRIM_LENGTH).s;
   }
 
   eta(date) {

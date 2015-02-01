@@ -9,6 +9,7 @@ class TripsCtrl {
     this.TripTools = TripTools;
 
     this.user = User.getUser();
+    User.setInterceptor();
     User.check();
 
     this.resource = Restangular.all('trips');
